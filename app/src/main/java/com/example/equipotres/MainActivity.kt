@@ -91,9 +91,11 @@ class MainActivity : AppCompatActivity(), InstruccionesFragment.InstruccionesLis
     }
 
     private fun shareContent() {
+        val textToShare = "App pico botella.\nSolo los valientes lo juegan!!\nhttps://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=US"
+
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Este es el contenido que quiero compartir.")
+            putExtra(Intent.EXTRA_TEXT, textToShare)
             type = "text/plain"
         }
         startActivity(Intent.createChooser(shareIntent, "Compartir con"))
