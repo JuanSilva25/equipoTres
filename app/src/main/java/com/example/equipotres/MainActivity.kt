@@ -4,23 +4,22 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import com.example.equipotres.databinding.ActivityMainBinding
+import com.example.equipotres.ui.instrucciones.InstruccionesFragment
 import com.example.equipotres.ui.retos.RetosActivity
-import android.net.Uri
 
-
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), InstruccionesFragment.InstruccionesListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var countdownTimer: CountDownTimer
     private lateinit var mediaPlayer: MediaPlayer
@@ -29,9 +28,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        setupToolbar() // configuracion del toolbar
-        setupAudioButton() // Configurar el boton de audio
+        setupToolbar()
+        setupAudioButton()
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sound_main)
         mediaPlayer.isLooping = true // Hace que el sonido se repita en bucle
@@ -43,27 +41,30 @@ class MainActivity : AppCompatActivity() {
         // Configurar el botón "Presióname" para que parpadee
         makeButtonBlink(binding.bButton)
 
-        // funcion para abrir la ventana de retos
+        // Función para abrir la ventana de retos
         val btnAdd = findViewById<ImageButton>(R.id.btn_add)
         btnAdd.setOnClickListener {
             mediaPlayer.pause()
             val intent = Intent(this, RetosActivity::class.java)
             startActivity(intent)
         }
-        // funcion para abrir la ventana de instrucciones
-//        val btnGame = findViewById<ImageButton>(R.id.btn_game)
-//        btnGame.setOnClickListener {
-//            mediaPlayer.pause() // Pausa la música de fondo
-//            val instruccionesFragment = InstruccionesFragment()
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.fragment_container, instruccionesFragment)
-//                .addToBackStack(null) // Permite volver al fragmento anterior
-//                .commit()
-//        }
+
+        // Función para abrir la ventana de instrucciones
+        val btnGame = findViewById<ImageButton>(R.id.btn_game)
+        btnGame.setOnClickListener {
+            val instruccionesFragment = InstruccionesFragment()
+            instruccionesFragment.setInstruccionesListener(this)
+            instruccionesFragment.show(supportFragmentManager, "InstruccionesFragment")
+        }
+
+        // Función para el botón de compartir
+        val btnShare = findViewById<ImageButton>(R.id.btnShare)
+        btnShare.setOnClickListener {
+            shareContent()
+        }
     }
 
-
-    private fun setupToolbar(){
+    private fun setupToolbar() {
         val toolbar = binding.contentToolbar.toolbar
         setSupportActionBar(toolbar)
         val btnStar = toolbar.findViewById<ImageButton>(R.id.btn_star)
@@ -76,20 +77,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAudioButton() {
         val audioButton = binding.contentToolbar.toolbar.findViewById<ImageButton>(R.id.btn_audio_on)
-
         audioButton.setOnClickListener {
             if (isAudioPlaying) {
-                // Si la música está sonando, pausar la música y cambiar el ícono
                 mediaPlayer.pause()
-                audioButton.setImageResource(R.drawable.ico_volume_off) // Cambiar a ícono de apagado
+                audioButton.setImageResource(R.drawable.ico_volume_off)
                 isAudioPlaying = false
             } else {
-                // Si la música está pausada, reiniciarla y cambiar el ícono
                 mediaPlayer.start()
-                audioButton.setImageResource(R.drawable.ico_volume_on) // Cambiar a ícono de encendido
+                audioButton.setImageResource(R.drawable.ico_volume_on)
                 isAudioPlaying = true
             }
         }
+    }
+
+    private fun shareContent() {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Este es el contenido que quiero compartir.")
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(shareIntent, "Compartir con"))
     }
 
     override fun onBackPressed() {
@@ -99,7 +106,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startCountdown() {
         binding.contador.text = "3"
-
         countdownTimer = object : CountDownTimer(3000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsLeft = (millisUntilFinished / 1000).toInt()
@@ -113,7 +119,6 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-
     private fun makeButtonBlink(button: Button) {
         val animator = ObjectAnimator.ofFloat(button, "alpha", 0f, 1f)
         animator.repeatCount = ValueAnimator.INFINITE
@@ -121,18 +126,35 @@ class MainActivity : AppCompatActivity() {
         animator.duration = 500
         animator.start()
     }
+
     override fun onPause() {
         super.onPause()
-        mediaPlayer.pause() // Pausa el sonido si la actividad se pausa
+        if (isAudioPlaying) {
+            mediaPlayer.pause()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        mediaPlayer.start() // Reanuda el sonido cuando la actividad vuelve a primer plano
+        if (isAudioPlaying) {
+            mediaPlayer.start()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release() // Libera los recursos del MediaPlayer
+        mediaPlayer.release()
+    }
+
+    override fun onDialogShown() {
+        if (isAudioPlaying) {
+            mediaPlayer.pause()
+        }
+    }
+
+    override fun onDialogDismissed() {
+        if (isAudioPlaying) {
+            mediaPlayer.start()
+        }
     }
 }

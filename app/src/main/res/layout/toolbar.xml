@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,8 +28,8 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ico_star"
-                android:tint="@color/carrot_orange"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange" />
 
             <ImageButton
                 android:id="@+id/btn_audio_on"
@@ -37,8 +38,8 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ico_volume_on"
-                android:tint="@color/carrot_orange"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange" />
 
             <ImageButton
                 android:id="@+id/btn_game"
@@ -47,8 +48,8 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ico_controller"
-                android:tint="@color/carrot_orange"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange" />
 
             <ImageButton
                 android:id="@+id/btn_add"
@@ -57,18 +58,18 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ico_plus"
-                android:tint="@color/carrot_orange"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange" />
 
             <ImageButton
-                android:id="@+id/btn_share"
+                android:id="@+id/btnShare"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ico_share"
-                android:tint="@color/carrot_orange"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange" />
 
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>

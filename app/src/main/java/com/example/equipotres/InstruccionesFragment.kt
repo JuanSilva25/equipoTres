@@ -1,59 +1,58 @@
-package com.example.equipotres
+package com.example.equipotres.ui.instrucciones
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import com.example.equipotres.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class InstruccionesFragment : DialogFragment() {
+    private var isAudioOn: Boolean = false
 
-/**
- * A simple [Fragment] subclass.
- * Use the [InstruccionesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class InstruccionesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    interface InstruccionesListener {
+        fun onDialogShown()
+        fun onDialogDismissed()
     }
+
+    private var listener: InstruccionesListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_instrucciones, container, false)
+        val view = inflater.inflate(R.layout.fragment_instrucciones, container, false)
+        isAudioOn = arguments?.getBoolean("isAudioOn") ?: false
+
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+        toolbar.title = "Reglas del Juego"
+        toolbar.setNavigationIcon(android.R.drawable.ic_menu_revert)
+        toolbar.setNavigationOnClickListener {
+            dismiss() // Cierra el DialogFragment
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InstruccionesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InstruccionesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
+        listener?.onDialogShown()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listener?.onDialogDismissed()
+    }
+
+    fun setInstruccionesListener(listener: InstruccionesListener) {
+        this.listener = listener
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 }
