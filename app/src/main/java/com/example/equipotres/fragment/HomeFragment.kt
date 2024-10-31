@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
                 lastRotation = randomAngle % 360
                 startCountdown() // Iniciar el contador después de girar la botella
                 binding.bButton.isVisible = true // Volver a mostrar el botón
-                showRetoDialog()
+                //showRetoDialog()
             }
         })
     }
