@@ -1,24 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:background="@drawable/background_wood"
+        android:orientation="vertical"
+        >
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/navigationContainer"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <include
+            layout="@layout/toolbar"
+            android:id="@+id/contentToolbar"/>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/imgBotella"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                app:srcCompat="@drawable/img_botella" />
+
+            <TextView
+                android:id="@+id/contador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:text="3"
+                android:textColor="#FF0000"
+                android:textSize="60sp"
+                android:fontFamily="@font/splash_font"
+                android:textStyle="bold"
+                />
+
+        </FrameLayout>
+
+
+        <Button
+            android:id="@+id/bButton"
+            android:layout_marginTop="100dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/button_background"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_presioname"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/splash_font"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            />
+
+
+
+    </LinearLayout>
 </layout>
