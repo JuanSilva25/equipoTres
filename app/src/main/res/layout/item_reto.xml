@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_margin="8dp"
     android:background="@color/white"
     android:elevation="4dp"
+    android:orientation="vertical"
     android:padding="8dp">
 
+    <!-- Contenedor de iconos y botones -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,23 +24,26 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/delete_forever"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/delete_forever" />
 
-       <ImageButton
+        <ImageButton
             android:id="@+id/edit_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/delete_button"
-            android:src="@drawable/pencil"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="8dp" />
+            android:src="@drawable/pencil" />
     </RelativeLayout>
 
+    <!-- Descripción del reto -->
     <TextView
         android:id="@+id/reto_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Descripción del reto"
+        android:textSize="16sp"
         android:textColor="@android:color/black" />
 </LinearLayout>

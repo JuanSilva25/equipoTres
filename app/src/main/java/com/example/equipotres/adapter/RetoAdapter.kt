@@ -3,16 +3,27 @@ package com.example.equipotres.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.equipotres.R
 import com.example.equipotres.models.Reto
 
-class RetoAdapter(private val retos: MutableList<Reto>) : RecyclerView.Adapter<RetoAdapter.RetoViewHolder>() {
+class RetoAdapter(
+    private val retos: MutableList<Reto>,
+    private val onEditClick: (Reto) -> Unit,
+    private val onDeleteClick: (Reto) -> Unit
+) : RecyclerView.Adapter<RetoAdapter.RetoViewHolder>() {
 
     inner class RetoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val descriptionTextView = itemView.findViewById<TextView>(R.id.reto_description)
+        private val editButton = itemView.findViewById<ImageButton>(R.id.edit_button)
+        private val deleteButton = itemView.findViewById<ImageButton>(R.id.delete_button)
+
         fun bind(reto: Reto) {
-            itemView.findViewById<TextView>(R.id.reto_description).text = reto.description
+            descriptionTextView.text = reto.description
+            editButton.setOnClickListener { onEditClick(reto) }
+            deleteButton.setOnClickListener { onDeleteClick(reto) }
         }
     }
 
@@ -28,13 +39,29 @@ class RetoAdapter(private val retos: MutableList<Reto>) : RecyclerView.Adapter<R
     override fun getItemCount(): Int = retos.size
 
     fun addReto(reto: Reto) {
-        retos.add(reto)
-        notifyItemInserted(retos.size - 1)
+        retos.add(0, reto)
+        notifyItemInserted(0)
     }
 
     fun updateRetos(newRetos: List<Reto>) {
         retos.clear()
         retos.addAll(newRetos)
         notifyDataSetChanged()
+    }
+
+    fun updateReto(updatedReto: Reto) {
+        val index = retos.indexOfFirst { it.id == updatedReto.id }
+        if (index != -1) {
+            retos[index] = updatedReto
+            notifyItemChanged(index)
+        }
+    }
+
+    fun deleteReto(reto: Reto) {
+        val index = retos.indexOfFirst { it.id == reto.id }
+        if (index != -1) {
+            retos.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 }

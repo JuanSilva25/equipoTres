@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@Entity(tableName = "Reto")
+@Entity(tableName = "retos")
 data class Reto(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

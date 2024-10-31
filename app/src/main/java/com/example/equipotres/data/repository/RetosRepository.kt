@@ -35,6 +35,13 @@ class RetosRepository(context: Context) {
         }
     }
 
+    // Método para actualizar un reto completo
+    suspend fun actualizarReto(reto: Reto): Int {
+        return withContext(Dispatchers.IO) {
+            retoDao.updateReto(reto)
+        }
+    }
+
     // Método para eliminar un reto
     suspend fun eliminarReto(retoId: Int): Int = withContext(Dispatchers.IO) {
         retoDao.deleteReto(retoId)
