@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class  RetosListFragment : Fragment() {
+class RetosListFragment : Fragment() {
 
     private lateinit var binding: FragmentRetoslistBinding
     private lateinit var retosRepository: RetosRepository
@@ -36,7 +36,7 @@ class  RetosListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         retosRepository = RetosRepository(requireContext())
-        retoAdapter = RetoAdapter(mutableListOf())
+        retoAdapter = RetoAdapter(mutableListOf(), ::editReto, ::deleteReto)
         setupRecyclerView()
         loadRetos()
         setupListeners()
@@ -50,12 +50,10 @@ class  RetosListFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Navegación de regreso con la flecha
         binding.arrowLeft.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        // Abrir el diálogo para agregar un nuevo reto
         binding.fabAddReto.setOnClickListener {
             showAddRetoDialog()
         }
@@ -67,7 +65,6 @@ class  RetosListFragment : Fragment() {
             .setView(dialogBinding.root)
             .create()
 
-        // Configurar el botón "Guardar" para crear el reto
         dialogBinding.saveButton.setOnClickListener {
             val description = dialogBinding.dialogDescription.text.toString().trim()
             if (description.isNotEmpty()) {
@@ -79,7 +76,6 @@ class  RetosListFragment : Fragment() {
             }
         }
 
-        // Configurar el botón "Cancelar" para cerrar el diálogo
         dialogBinding.cancelButton.setOnClickListener {
             dialog.dismiss()
         }
@@ -92,10 +88,68 @@ class  RetosListFragment : Fragment() {
             retosRepository.agregarReto(reto)
             withContext(Dispatchers.Main) {
                 retoAdapter.addReto(reto)
-                binding.recyclerViewRetos.smoothScrollToPosition(retoAdapter.itemCount - 1)
+                binding.recyclerViewRetos.smoothScrollToPosition(0)
                 Toast.makeText(requireContext(), "Reto agregado", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun editReto(reto: Reto) {
+        val dialogBinding = DialogRetoBinding.inflate(LayoutInflater.from(requireContext()))
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.dialogDescription.setText(reto.description)
+
+        dialogBinding.saveButton.setOnClickListener {
+            val description = dialogBinding.dialogDescription.text.toString().trim()
+            if (description.isNotEmpty()) {
+                val updatedReto = reto.copy(description = description)
+                updateReto(updatedReto)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "La descripción no puede estar vacía", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialogBinding.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun updateReto(reto: Reto) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val rowsUpdated = retosRepository.actualizarReto(reto)
+            withContext(Dispatchers.Main) {
+                if (rowsUpdated > 0) {
+                    retoAdapter.updateReto(reto)
+                    Toast.makeText(requireContext(), "Reto actualizado", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Error al actualizar el reto", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun deleteReto(reto: Reto) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar eliminación")
+            .setMessage("¿Estás seguro de que deseas eliminar este reto?")
+            .setPositiveButton("Eliminar") { _, _ ->
+                // Si el usuario confirma, se procede a eliminar el reto
+                CoroutineScope(Dispatchers.IO).launch {
+                    retosRepository.eliminarReto(reto.id)
+                    withContext(Dispatchers.Main) {
+                        retoAdapter.deleteReto(reto)
+                        Toast.makeText(requireContext(), "Reto eliminado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun loadRetos() {

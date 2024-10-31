@@ -7,7 +7,7 @@ import android.content.Context
 import com.example.equipotres.models.Reto
 import com.example.equipotres.utils.Constants.NAME_BD
 
-@Database(entities = [Reto::class], version = 1, exportSchema = false)
+@Database(entities = [Reto::class], version = 2, exportSchema = false)
 abstract class RetoDB : RoomDatabase() {
     abstract fun retoDao(): RetoDao
 
