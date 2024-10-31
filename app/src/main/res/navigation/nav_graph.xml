@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_rulesFragment"
             app:destination="@id/rulesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_challengesFragment"
+            app:destination="@id/challengesFragment" />
     </fragment>
     <fragment
         android:id="@+id/rulesFragment"
         android:name="com.example.equipotres.fragment.RulesFragment"
         android:label="fragment_rules"
         tools:layout="@layout/fragment_rules" />
+    <fragment
+        android:id="@+id/challengesFragment"
+        android:name="com.example.equipotres.fragment.RetosListFragment"
+        android:label="fragment_challenges"
+        tools:layout="@layout/fragment_retoslist" />
 </navigation>

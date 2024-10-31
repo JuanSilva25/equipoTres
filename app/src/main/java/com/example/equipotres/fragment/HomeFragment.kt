@@ -16,7 +16,6 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
-import com.example.equipotres.ui.retos.RetosActivity
 import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment() {
@@ -39,6 +38,7 @@ class HomeFragment : Fragment() {
         setupToolbar()
         setupAudioButton()
         navigationFragmentRules()
+        navigationFragmentChallenges()
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound_main)
         mediaPlayer.isLooping = true
@@ -46,13 +46,6 @@ class HomeFragment : Fragment() {
 
         startCountdown()
         makeButtonBlink(binding.bButton)
-
-        binding.contentToolbar.btnAdd.setOnClickListener {
-            mediaPlayer.pause()
-            val intent = Intent(requireContext(), RetosActivity::class.java)
-            startActivity(intent)
-        }
-
 
         binding.contentToolbar.btnShare.setOnClickListener {
             shareContent()
@@ -62,6 +55,12 @@ class HomeFragment : Fragment() {
     private fun navigationFragmentRules(){
         binding.contentToolbar.btnGame.setOnClickListener() {
             findNavController().navigate(R.id.action_homeFragment_to_rulesFragment)
+        }
+    }
+
+    private fun navigationFragmentChallenges(){
+        binding.contentToolbar.btnAdd.setOnClickListener() {
+            findNavController().navigate(R.id.action_homeFragment_to_challengesFragment)
         }
     }
 
