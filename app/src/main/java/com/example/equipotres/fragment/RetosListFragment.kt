@@ -135,13 +135,21 @@ class RetosListFragment : Fragment() {
     }
 
     private fun deleteReto(reto: Reto) {
-        CoroutineScope(Dispatchers.IO).launch {
-            retosRepository.eliminarReto(reto.id)
-            withContext(Dispatchers.Main) {
-                retoAdapter.deleteReto(reto)
-                Toast.makeText(requireContext(), "Reto eliminado", Toast.LENGTH_SHORT).show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar eliminación")
+            .setMessage("¿Estás seguro de que deseas eliminar este reto?")
+            .setPositiveButton("Eliminar") { _, _ ->
+                // Si el usuario confirma, se procede a eliminar el reto
+                CoroutineScope(Dispatchers.IO).launch {
+                    retosRepository.eliminarReto(reto.id)
+                    withContext(Dispatchers.Main) {
+                        retoAdapter.deleteReto(reto)
+                        Toast.makeText(requireContext(), "Reto eliminado", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
-        }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun loadRetos() {
