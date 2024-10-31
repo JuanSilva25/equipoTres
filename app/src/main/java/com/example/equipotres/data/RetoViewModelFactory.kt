@@ -1,5 +1,6 @@
 package com.example.equipotres.data
 
+import RetoViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.equipotres.repository.PokemonRepository
