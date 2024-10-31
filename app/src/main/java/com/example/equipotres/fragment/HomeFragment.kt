@@ -1,5 +1,7 @@
 package com.example.equipotres.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
@@ -19,6 +21,8 @@ import com.example.equipotres.databinding.FragmentHomeBinding
 import com.example.equipotres.ui.retos.RetosActivity
 import androidx.navigation.fragment.findNavController
 import kotlin.random.Random
+import androidx.core.view.isVisible
+
 
 class HomeFragment : Fragment() {
 
@@ -86,13 +90,14 @@ class HomeFragment : Fragment() {
 
         spinSound.start()
 
-        rotationAnimator.addListener(onEnd = {
-            spinSound.pause()
-            spinSound.seekTo(0)
-            lastRotation = randomAngle % 360
-            startCountdown() // Iniciar el contador después de girar la botella
-            binding.bButton.isVisible = true // Volver a mostrar el botón
-
+        rotationAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                spinSound.pause()
+                spinSound.seekTo(0)
+                lastRotation = randomAngle % 360
+                startCountdown() // Iniciar el contador después de girar la botella
+                binding.bButton.isVisible = true // Volver a mostrar el botón
+            }
         })
     }
 
