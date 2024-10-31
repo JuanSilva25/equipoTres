@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -17,12 +18,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
-        dataBinding =  true
+        dataBinding = true
+        viewBinding = true
     }
 
-
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -40,6 +41,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room:room-runtime:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    ksp("androidx.room:room-compiler:2.4.3")
+
     val nav_version = "2.7.3"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
