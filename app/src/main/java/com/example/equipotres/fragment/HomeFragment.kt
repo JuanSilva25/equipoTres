@@ -16,8 +16,8 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
-import com.example.equipotres.ui.instrucciones.InstruccionesFragment
 import com.example.equipotres.ui.retos.RetosActivity
+import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment() {
 
@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupAudioButton()
+        navigationFragmentRules()
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound_main)
         mediaPlayer.isLooping = true
@@ -52,16 +53,18 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-       // binding.contentToolbar.btnGame.setOnClickListener {
-        //    val instruccionesFragment = InstruccionesFragment()
-        //    instruccionesFragment.setInstruccionesListener(requireContext())
-       //     instruccionesFragment.show(parentFragmentManager, "InstruccionesFragment")
-       // }
 
         binding.contentToolbar.btnShare.setOnClickListener {
             shareContent()
         }
     }
+
+    private fun navigationFragmentRules(){
+        binding.contentToolbar.btnGame.setOnClickListener() {
+            findNavController().navigate(R.id.action_homeFragment_to_rulesFragment)
+        }
+    }
+
 
     private fun setupToolbar() {
         val toolbar = binding.contentToolbar.toolbar
