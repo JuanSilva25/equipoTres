@@ -16,7 +16,9 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
+import com.example.equipotres.ui.retos.RetosActivity
 import androidx.navigation.fragment.findNavController
+import kotlin.random.Random
 
 class HomeFragment : Fragment() {
 
@@ -24,6 +26,8 @@ class HomeFragment : Fragment() {
     private lateinit var countdownTimer: CountDownTimer
     private lateinit var mediaPlayer: MediaPlayer
     private var isAudioPlaying = true
+    private var lastRotation = 0f
+    private lateinit var spinSound: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,18 +42,58 @@ class HomeFragment : Fragment() {
         setupToolbar()
         setupAudioButton()
         navigationFragmentRules()
-        navigationFragmentChallenges()
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound_main)
         mediaPlayer.isLooping = true
         mediaPlayer.start()
 
+        spinSound = MediaPlayer.create(requireContext(), R.raw.spinning_bottle)
+
         startCountdown()
         makeButtonBlink(binding.bButton)
+
+        binding.bButton.setOnClickListener {
+            startBottleSpin()
+        }
+
+        binding.contentToolbar.btnAdd.setOnClickListener {
+            mediaPlayer.pause()
+            val intent = Intent(requireContext(), RetosActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.contentToolbar.btnShare.setOnClickListener {
             shareContent()
         }
+    }
+
+    private fun startBottleSpin() {
+        binding.contador.visibility = View.VISIBLE
+
+        binding.imgBotella.pivotX = binding.imgBotella.width / 2f
+        binding.imgBotella.pivotY = binding.imgBotella.height / 2f
+
+        if (isAudioPlaying) {
+            mediaPlayer.pause()
+        }
+
+        val duration = 4000L // Duración de la animación
+        val randomAngle = lastRotation + Random.nextInt(720, 1440)
+        val rotationAnimator = ObjectAnimator.ofFloat(binding.imgBotella, "rotation", lastRotation, randomAngle)
+
+        rotationAnimator.duration = duration
+        rotationAnimator.start()
+
+        spinSound.start()
+
+        rotationAnimator.addListener(onEnd = {
+            spinSound.pause()
+            spinSound.seekTo(0)
+            lastRotation = randomAngle % 360
+            startCountdown() // Iniciar el contador después de girar la botella
+            binding.bButton.isVisible = true // Volver a mostrar el botón
+
+        })
     }
 
     private fun navigationFragmentRules(){
@@ -57,13 +101,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_rulesFragment)
         }
     }
-
-    private fun navigationFragmentChallenges(){
-        binding.contentToolbar.btnAdd.setOnClickListener() {
-            findNavController().navigate(R.id.action_homeFragment_to_challengesFragment)
-        }
-    }
-
 
     private fun setupToolbar() {
         val toolbar = binding.contentToolbar.toolbar
@@ -139,5 +176,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mediaPlayer.release()
+        spinSound.release() // Liberar recursos de spinSound
     }
 }
