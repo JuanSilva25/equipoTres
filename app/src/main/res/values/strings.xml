@@ -2,9 +2,15 @@
     <string name="app_name">equipoTres</string>
     <string name="app_splash">Pico Botella</string>
     <string name="bt_presioname">Presióname</string>
+    <string name="reglas">Reglas de Juego</string>
+    <string name="juego">¿Cómo se juega?</string>
     <string name="retos">Retos</string>
     <string name="addRetos">Agregar reto</string>
     <string name="readReto">Escriba el reto</string>
+    <string name="ganador">¿Quién gana?</string>
+    <string name="comoJugar">Los jugadores forman un círculo y en el centro colocan el dispositivo
+        móvil, luego tocan el botón parpadeante para girar la botella. El jugador que señale la
+        botella debe cumplir el reto que lanza la app, de lo contrario abandona el juego.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gana_el_ltimo_jugador_que_no_abandone_el_juego">Gana el último jugador que no abandone el juego.</string>
