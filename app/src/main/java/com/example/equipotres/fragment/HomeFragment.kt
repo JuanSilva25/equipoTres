@@ -18,10 +18,13 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
-import com.example.equipotres.ui.retos.RetosActivity
+import com.example.equipotres.RetosActivity
 import androidx.navigation.fragment.findNavController
 import kotlin.random.Random
 import androidx.core.view.isVisible
+import com.example.equipotres.view.RetoDialogFragment
+import com.example.equipotres.repository.PokemonRepository
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -42,11 +45,13 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        private lateinit var pokemonRepository: PokemonRepository
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupAudioButton()
         navigationFragmentRules()
 
+        pokemonRepository = PokemonRepository()
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound_main)
         mediaPlayer.isLooping = true
         mediaPlayer.start()
@@ -69,6 +74,13 @@ class HomeFragment : Fragment() {
         binding.contentToolbar.btnShare.setOnClickListener {
             shareContent()
         }
+    }
+
+    private fun showRetoDialog() {
+        val dialog = RetoDialogFragment()
+        dialog.onDismissListener = {
+        }
+        dialog.show(childFragmentManager, "RetoDialog")
     }
 
     private fun startBottleSpin() {
@@ -97,6 +109,7 @@ class HomeFragment : Fragment() {
                 lastRotation = randomAngle % 360
                 startCountdown() // Iniciar el contador después de girar la botella
                 binding.bButton.isVisible = true // Volver a mostrar el botón
+                showRetoDialog()
             }
         })
     }
