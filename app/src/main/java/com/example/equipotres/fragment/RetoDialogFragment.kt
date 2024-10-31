@@ -7,9 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.example.equipotres.databinding.RetoDialogFragmentBinding
 import com.example.equipotres.R
+import com.example.equipotres.databinding.FragmentRetoDialogBinding
+import com.example.equipotres.data.RetoViewModelFactory
+import com.example.equipotres.repository.PokemonRepository
+import com.example.equipotres.data.RetoViewModel
+import com.example.equipotres.data.repository.RetosRepository // Asegúrate de importar este repositorio
 
 class RetoDialogFragment : DialogFragment() {
 
@@ -18,9 +23,14 @@ class RetoDialogFragment : DialogFragment() {
 
     var onDismissListener: (() -> Unit)? = null
 
-    // Propiedades para el reto y la imagen del Pokémon
-    var retoDescription: String? = null
-    var pokemonImageUrl: String? = null
+    // Instancia del repositorio (considera inicializarlo adecuadamente si requiere parámetros)
+    private val pokemonRepository = PokemonRepository() // Asegúrate de que este constructor sea válido
+    private lateinit  var retosRepository : RetosRepository// Asegúrate de que este repositorio exista
+
+    // ViewModel
+    private val retoViewModel: RetoViewModel by activityViewModels {
+        RetoViewModelFactory(pokemonRepository, retosRepository) // Asegúrate de pasar ambos repositorios
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,17 +43,30 @@ class RetoDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar el texto del reto y cargar la imagen
-        binding.txtReto.text = retoDescription
+        // Observación de LiveData
+        retoViewModel.pokemonImageUrl.observe(viewLifecycleOwner) { imageUrl ->
+            imageUrl?.let {
+                Glide.with(this)
+                    .load(it)
+                    .into(binding.imgPokemon)
+            }
+        }
 
-        pokemonImageUrl?.let { imageUrl ->
-            Glide.with(this)
-                .load(imageUrl)
-                .into(binding.imgPokemon)
+        // Observa el LiveData para cerrar el diálogo
+        retoViewModel.closeDialog.observe(viewLifecycleOwner) { shouldClose ->
+            if (shouldClose == true) {
+                dismiss() // Cierra el diálogo
+                //retoViewModel.closeDialog.value = false // Reinicia el estado
+            }
+        }
+
+        // Observación de la descripción del reto
+        retoViewModel.retoDescription.observe(viewLifecycleOwner) { description ->
+            binding.txtReto.text = description ?: "Reto" // Configura el texto del reto
         }
 
         binding.btnClose.setOnClickListener {
-            dismiss()
+            retoViewModel.closeDialog() // Usa el LiveData para cerrar el diálogo
         }
 
         isCancelable = false

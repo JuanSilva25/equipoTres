@@ -1,14 +1,18 @@
 package com.example.equipotres.data
 
-import RetoViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.equipotres.data.repository.RetosRepository
 import com.example.equipotres.repository.PokemonRepository
 
-class RetoViewModelFactory(private val repository: PokemonRepository) : ViewModelProvider.Factory {
+class RetoViewModelFactory(
+    private val pokemonRepository: PokemonRepository,
+    private val retosRepository: RetosRepository
+) : ViewModelProvider.Factory {
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RetoViewModel::class.java)) {
-            return RetoViewModel(repository) as T
+            return RetoViewModel(pokemonRepository, retosRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,11 +1,11 @@
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <!-- Aquí puedes definir las variables que se vincularán a tu ViewModel -->
         <variable
             name="viewModel"
-            type="com.example.equipotres.viewmodel.RetoViewModel" />
+            type="com.example.equipotres.data.RetoViewModel" />
     </data>
 
     <FrameLayout
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@{viewModel.reto.description}"
+                android:text="@{viewModel.retoDescription}"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -59,7 +59,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:onClick="@{() -> viewModel.closeDialog()}" /> <!-- Acción de cierre -->
+                android:onClick="@{() -> viewModel.closeDialog()}" />
         </LinearLayout>
     </FrameLayout>
 </layout>

@@ -18,7 +18,6 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
-import com.example.equipotres.RetosActivity
 import androidx.navigation.fragment.findNavController
 import kotlin.random.Random
 import androidx.core.view.isVisible
@@ -45,7 +44,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        private lateinit var pokemonRepository: PokemonRepository
+        lateinit var pokemonRepository: PokemonRepository
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupAudioButton()
@@ -63,12 +62,6 @@ class HomeFragment : Fragment() {
 
         binding.bButton.setOnClickListener {
             startBottleSpin()
-        }
-
-        binding.contentToolbar.btnAdd.setOnClickListener {
-            mediaPlayer.pause()
-            val intent = Intent(requireContext(), RetosActivity::class.java)
-            startActivity(intent)
         }
 
         binding.contentToolbar.btnShare.setOnClickListener {
@@ -103,7 +96,7 @@ class HomeFragment : Fragment() {
         spinSound.start()
 
         rotationAnimator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 spinSound.pause()
                 spinSound.seekTo(0)
                 lastRotation = randomAngle % 360
