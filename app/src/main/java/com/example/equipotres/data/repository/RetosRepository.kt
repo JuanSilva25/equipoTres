@@ -3,7 +3,7 @@ package com.example.equipotres.data.repository
 import android.content.Context
 import com.example.equipotres.data.RetoDB
 import com.example.equipotres.data.RetoDao
-import com.example.equipotres.models.Reto
+import com.example.equipotres.model.Reto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

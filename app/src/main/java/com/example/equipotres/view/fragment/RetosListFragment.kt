@@ -1,4 +1,4 @@
-package com.example.equipotres.fragment
+package com.example.equipotres.view.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,11 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.equipotres.adapter.RetoAdapter
+import com.example.equipotres.view.adapter.RetoAdapter
 import com.example.equipotres.data.repository.RetosRepository
 import com.example.equipotres.databinding.DialogRetoBinding
 import com.example.equipotres.databinding.FragmentRetoslistBinding
-import com.example.equipotres.models.Reto
+import com.example.equipotres.model.Reto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

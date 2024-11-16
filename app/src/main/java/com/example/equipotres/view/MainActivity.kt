@@ -1,6 +1,7 @@
-package com.example.equipotres
+package com.example.equipotres.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.equipotres.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

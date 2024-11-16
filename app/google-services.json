@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817772883147",
+    "project_id": "picobotella-e3",
+    "storage_bucket": "picobotella-e3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817772883147:android:490997b259e87636bdbf4e",
+        "android_client_info": {
+          "package_name": "com.example.equipotres"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJzWwlYRuZK9SfmVNla8NE99_NLfQmPfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

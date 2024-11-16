@@ -1,4 +1,4 @@
-package com.example.equipotres.fragment
+package com.example.equipotres.view.fragment
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator

@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
-import com.example.equipotres.models.Reto
+import com.example.equipotres.model.Reto
 import com.example.equipotres.utils.Constants.NAME_BD
 
 @Database(entities = [Reto::class], version = 2, exportSchema = false)
