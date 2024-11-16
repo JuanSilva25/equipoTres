@@ -1,4 +1,4 @@
-package com.example.equipotres.adapter
+package com.example.equipotres.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.equipotres.R
-import com.example.equipotres.models.Reto
+import com.example.equipotres.model.Reto
 
 class RetoAdapter(
     private val retos: MutableList<Reto>,

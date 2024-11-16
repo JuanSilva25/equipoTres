@@ -1,4 +1,4 @@
-package com.example.equipotres.models
+package com.example.equipotres.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -4,9 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Update
-import com.example.equipotres.models.Reto
+import com.example.equipotres.model.Reto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
