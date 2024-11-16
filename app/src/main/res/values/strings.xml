@@ -24,6 +24,9 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="login_title">"Pico Botella"</string>
+    <string name="email_hint">"Email"</string>
+    <string name="pass_hint">"Password"</string>
+    <string name="button_login">"Login"</string>
 
 
 </resources>
