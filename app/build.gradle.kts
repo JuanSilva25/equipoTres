@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.annotation)
     ksp("androidx.room:room-compiler:2.4.3")
 
+
     val nav_version = "2.7.3"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -64,6 +65,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-common:$nav_version")
+    implementation ("com.google.android.material:material:1.9.0")
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-firestore")
