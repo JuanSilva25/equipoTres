@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="7dp">
 
             <ImageButton
                 android:id="@+id/btn_star"
@@ -71,6 +71,16 @@
                 android:layout_marginEnd="16dp"
                 app:tint="@color/carrot_orange" />
 
+            <ImageButton
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ico_logout"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/carrot_orange"
+                android:scaleType="center" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 </layout>
