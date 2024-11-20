@@ -3,6 +3,7 @@ package com.example.equipotres.view.fragment
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.equipotres.R
 import com.example.equipotres.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
+import com.example.equipotres.view.LoginActivity
+import android.content.Context
 
 class HomeFragment : Fragment() {
 
@@ -24,6 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var countdownTimer: CountDownTimer
     private lateinit var mediaPlayer: MediaPlayer
     private var isAudioPlaying = true
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +44,13 @@ class HomeFragment : Fragment() {
         navigationFragmentRules()
         navigationFragmentChallenges()
 
+        sharedPreferences = requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+        setupLogoutButton()
+
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound_main)
         mediaPlayer.isLooping = true
         mediaPlayer.start()
+
 
         startCountdown()
         makeButtonBlink(binding.bButton)
@@ -64,6 +72,24 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupLogoutButton() {
+        binding.contentToolbar.toolbar.findViewById<View>(R.id.btn_logout).setOnClickListener {
+            logOut()
+        }
+    }
+
+    private fun logOut() {
+        // Limpiar datos de SharedPreferences
+        sharedPreferences.edit().clear().apply()
+
+        // Redirigir al LoginActivity y limpiar la pila de actividades
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Limpia la pila de actividades
+        startActivity(intent)
+
+        // Finaliza la actividad
+        requireActivity().finish()
+    }
 
     private fun setupToolbar() {
         val toolbar = binding.contentToolbar.toolbar
