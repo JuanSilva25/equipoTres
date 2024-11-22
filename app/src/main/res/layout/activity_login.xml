@@ -72,7 +72,7 @@
                 android:id="@+id/etPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:maxLength="10"
                 android:hint="@string/pass_hint"
                 android:textColorHint="@color/white"
