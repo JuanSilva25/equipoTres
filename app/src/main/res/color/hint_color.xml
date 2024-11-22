@@ -2,4 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="@color/white" android:state_focused="true" /> <!-- Blanco cuando tiene foco -->
     <item android:color="@color/white" /> <!-- Blanco por defecto -->
+    <item android:color="@color/colorEnabledText" android:state_enabled="true"/> <!-- Blanco cuando está habilitado -->
+    <item android:color="@color/colorDisabledText" /> <!-- Gris cuando está deshabilitado -->
 </selector>
+
