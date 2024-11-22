@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,6 +16,7 @@ import com.example.equipotres.databinding.ActivityLoginBinding
 import com.example.equipotres.model.UserRequest
 import com.example.equipotres.viewmodel.LoginViewModel
 import androidx.core.content.ContextCompat
+import com.google.android.play.integrity.internal.s
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -51,11 +53,25 @@ class LoginActivity : AppCompatActivity() {
                     passwordTextInputLayout.isErrorEnabled = false
                     passwordTextInputLayout.boxStrokeColor = ContextCompat.getColor(this@LoginActivity, R.color.white)
                 }
+                // aqui se llama al metodo ValidateFields para habilitar o deshabilitar el boton
+                validateFields()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        binding .etEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                validateFields()
+            }
+
+            override fun beforeTextChanged(s: CharSequence? ,start: Int, count: Int, after: Int){}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { val emailInput = s.toString().trim()
+
+
+            }
         })
     }
 
@@ -71,6 +87,9 @@ class LoginActivity : AppCompatActivity() {
                 goToHome()
             } else {
                 Toast.makeText(this, userResponse.message, Toast.LENGTH_SHORT).show()
+
+                binding.tvRegister.isEnabled =true
+                binding.tvRegister.setTextColor(ContextCompat.getColor(this , R.color.colorEnabledText))
             }
         }
     }
@@ -78,11 +97,20 @@ class LoginActivity : AppCompatActivity() {
     private fun setup() {
         binding.tvRegister.setOnClickListener {
             registerUser()
+            it.isEnabled = false
         }
 
         binding.btnLogin.setOnClickListener {
             loginUser()
+            //deshabilitar el boton para evitar multiples clics
+            it.isEnabled = false
         }
+        // el boton queda  inactivo hasta que se ingrese un email y una contraseña
+        binding.btnLogin.isEnabled = false
+        binding.btnLogin.setTextColor(ContextCompat.getColor(this, R.color.colorDisabledText))
+
+        binding.tvRegister.isEnabled = false
+        binding.tvRegister.setTextColor(ContextCompat.getColor(this, R.color.colorDisabledText))
     }
 
     private fun registerUser() {
@@ -91,10 +119,14 @@ class LoginActivity : AppCompatActivity() {
         val userRequest = UserRequest(email, pass)
 
         if (email.isNotEmpty() && pass.isNotEmpty()) {
+            Log.d("RegisterUser", "Email: $email, Password: $pass")
             loginViewModel.registerUser(userRequest)
         } else {
             Toast.makeText(this, "Campos Vacíos", Toast.LENGTH_SHORT).show()
         }
+        binding.tvRegister.isEnabled = true
+        binding.tvRegister.setTextColor(ContextCompat.getColor(this, R.color.colorEnabledText))
+
     }
 
     private fun goToHome() {
@@ -106,11 +138,14 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser() {
         val email = binding.etEmail.text.toString()
         val pass = binding.etPass.text.toString()
+        Log.d("LoginUser", "Email: $email, Password: $pass")
         loginViewModel.loginUser(email, pass) { isLogin ->
             if (isLogin) {
                 goToHome()
             } else {
                 Toast.makeText(this, "Login incorrecto", Toast.LENGTH_SHORT).show()
+                binding.btnLogin.isEnabled = true
+                binding.btnLogin.setTextColor(ContextCompat.getColor(this, R.color.colorEnabledText))
             }
         }
     }
@@ -123,5 +158,22 @@ class LoginActivity : AppCompatActivity() {
                 goToHome()
             }
         }
+    }
+    private fun validateFields() {
+        val email = binding.etEmail.text.toString().trim()
+        val pass = binding.etPass.text.toString().trim()
+        //el boton se activara si el email contiene un @ y la contraseña tiene almenos  de 6 caracteres
+        val isEmailValid =email.isNotEmpty()
+        val IsPasswordValid = pass.isNotEmpty() && pass.length >= 6
+
+        val isValid = isEmailValid && IsPasswordValid
+
+        binding.btnLogin.isEnabled = isValid
+        binding.btnLogin.setTextColor(ContextCompat.getColor(this, if (isValid) R.color.colorEnabledText else R.color.colorDisabledText))
+
+        binding.tvRegister.isEnabled = isValid
+        binding.tvRegister.setTextColor(ContextCompat.getColor(this, if (isValid) R.color.colorEnabledText else R.color.colorDisabledText))
+
+
     }
 }
