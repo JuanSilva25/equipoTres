@@ -1,5 +1,7 @@
 package com.example.equipotres.view.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
@@ -20,6 +22,9 @@ import com.example.equipotres.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
 import com.example.equipotres.view.LoginActivity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 
 class HomeFragment : Fragment() {
 
@@ -51,13 +56,78 @@ class HomeFragment : Fragment() {
         mediaPlayer.isLooping = true
         mediaPlayer.start()
 
-
-        startCountdown()
+        binding.bButton.isEnabled = false
+        binding.bButton.visibility = View.INVISIBLE
+        startInitialCounter()
         makeButtonBlink(binding.bButton)
 
         binding.contentToolbar.btnShare.setOnClickListener {
             shareContent()
         }
+
+        // Configurar el botón para girar la botella
+        setupCircularButton()
+    }
+
+    // Nueva función que se adapta del código que te dieron
+    private fun setupCircularButton() {
+        binding.bButton.setOnClickListener {
+            Log.d("HomeFragment", "Botón presionado, bloqueando...")
+
+            binding.bButton.clearAnimation()
+            binding.bButton.isEnabled = false
+            binding.bButton.visibility = View.INVISIBLE
+            // Girar Botella
+            startBottleRotation()
+        }
+    }
+
+    private fun startBottleRotation() {
+        // Random challenge call (si tienes el viewModel o algo similar)
+       // viewModel.getRandomChallenge()
+
+        // Ángulo aleatorio para la rotación (de 90 a 720 grados)
+        val rotationAngle = (90..720).random().toFloat()
+
+        // Animación de rotación
+        val rotateAnimator = ObjectAnimator.ofFloat(binding.imgBotella, "rotation", binding.imgBotella.rotation, binding.imgBotella.rotation + rotationAngle)
+        rotateAnimator.duration = 5000 // Duración de 5 segundos
+
+        // Detener la rotación si el fragmento se detiene
+        onStop()
+
+        rotateAnimator.start()
+        rotateAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+
+                startInitialCounter()
+            }
+        })
+    }
+
+    private fun startInitialCounter() {
+        val handler = Handler(Looper.getMainLooper())
+        var counter = 3
+
+        binding.contador.visibility = View.VISIBLE
+
+        val runnable = object : Runnable {
+            override fun run() {
+                if (counter >= 0) {
+                    binding.contador.text = counter.toString()
+                    counter--
+                    handler.postDelayed(this, 1000)
+                } else {
+                    // Habilitar el botón y mostrar el cuadro de diálogo
+                    binding.contador.visibility = View.GONE
+                    Log.d("HomeFragment", "Contador terminado, desbloqueando botón...")
+                    binding.bButton.isEnabled = true
+                    binding.bButton.visibility = View.VISIBLE
+                //showChallengeDialog()
+                }
+            }
+        }
+        handler.post(runnable)
     }
 
     private fun navigationFragmentRules(){
