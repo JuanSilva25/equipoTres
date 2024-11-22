@@ -149,7 +149,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun logOut() {
-        // Limpiar datos de SharedPreferences
+        // Limpiar los datos de SharedPreferences SOLO al cerrar sesión manualmente
         sharedPreferences.edit().clear().apply()
 
         // Redirigir al LoginActivity y limpiar la pila de actividades
@@ -157,7 +157,7 @@ class HomeFragment : Fragment() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Limpia la pila de actividades
         startActivity(intent)
 
-        // Finaliza la actividad
+        // Finaliza la actividad actual
         requireActivity().finish()
     }
 

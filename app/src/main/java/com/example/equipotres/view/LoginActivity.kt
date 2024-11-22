@@ -163,17 +163,18 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString().trim()
         val pass = binding.etPass.text.toString().trim()
         //el boton se activara si el email contiene un @ y la contraseña tiene almenos  de 6 caracteres
-        val isEmailValid =email.isNotEmpty()
-        val IsPasswordValid = pass.isNotEmpty() && pass.length >= 6
+        val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val isPasswordValid = pass.isNotEmpty() && pass.length >= 6
 
-        val isValid = isEmailValid && IsPasswordValid
+        // El botón se habilitará si el email es válido y la contraseña tiene al menos 6 caracteres
+        val isValid = isEmailValid && isPasswordValid
 
+        // Habilitar o deshabilitar el botón de login y registrar
         binding.btnLogin.isEnabled = isValid
         binding.btnLogin.setTextColor(ContextCompat.getColor(this, if (isValid) R.color.colorEnabledText else R.color.colorDisabledText))
 
         binding.tvRegister.isEnabled = isValid
         binding.tvRegister.setTextColor(ContextCompat.getColor(this, if (isValid) R.color.colorEnabledText else R.color.colorDisabledText))
-
 
     }
 }
