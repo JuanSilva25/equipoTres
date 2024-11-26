@@ -48,7 +48,6 @@ dependencies {
     implementation(libs.androidx.annotation)
     ksp("androidx.room:room-compiler:2.4.3")
 
-
     val nav_version = "2.7.3"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -80,6 +79,14 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.activity:activity-ktx:1.8.0")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
+
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
 
 }
 
