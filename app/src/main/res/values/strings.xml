@@ -27,6 +27,7 @@
     <string name="email_hint">"Email"</string>
     <string name="pass_hint">"Password"</string>
     <string name="button_login">"Login"</string>
+    <string name="cerrar">"Cerrar"</string>
 
 
 </resources>

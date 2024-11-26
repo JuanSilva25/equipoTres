@@ -25,6 +25,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.equipotres.view.dialog.DialogCustom.Companion.showDialogCustom
 
 class HomeFragment : Fragment() {
 
@@ -69,7 +70,6 @@ class HomeFragment : Fragment() {
         setupCircularButton()
     }
 
-    // Nueva función que se adapta del código que te dieron
     private fun setupCircularButton() {
         binding.bButton.setOnClickListener {
             Log.d("HomeFragment", "Botón presionado, bloqueando...")
@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
         rotateAnimator.start()
         rotateAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-
+                showDialogCustom(binding.root.context)
                 startInitialCounter()
             }
         })
@@ -123,12 +123,14 @@ class HomeFragment : Fragment() {
                     Log.d("HomeFragment", "Contador terminado, desbloqueando botón...")
                     binding.bButton.isEnabled = true
                     binding.bButton.visibility = View.VISIBLE
-                //showChallengeDialog()
+
                 }
             }
         }
         handler.post(runnable)
     }
+
+
 
     private fun navigationFragmentRules(){
         binding.contentToolbar.btnGame.setOnClickListener() {
