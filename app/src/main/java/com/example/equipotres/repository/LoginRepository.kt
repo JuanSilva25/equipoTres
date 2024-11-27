@@ -51,4 +51,27 @@ class LoginRepository {
             )
         }
     }
+
+    fun loginUser(email: String, pass: String, isLoginResponse: (Boolean) -> Unit) {
+        try {
+            if (email.isNotEmpty() && pass.isNotEmpty()) {
+                firebaseAuth.signInWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            isLoginResponse(true)
+                        } else {
+                            isLoginResponse(false)
+                        }
+                    }
+            } else {
+                isLoginResponse(false)
+            }
+        } catch (e: Exception) {
+            // Manejo de excepciones generales si ocurren
+            isLoginResponse(false)
+        }
+    }
+
+
+
 }

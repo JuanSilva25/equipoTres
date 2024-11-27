@@ -141,6 +141,12 @@ class LoginActivity : AppCompatActivity() {
         Log.d("LoginUser", "Email: $email, Password: $pass")
         loginViewModel.loginUser(email, pass) { isLogin ->
             if (isLogin) {
+                // Guardar sesión activa
+                sharedPreferences.edit().apply {
+                    putString("email", email)
+                    putBoolean("isLoggedIn", true)
+                    apply()
+                }
                 goToHome()
             } else {
                 Toast.makeText(this, "Login incorrecto", Toast.LENGTH_SHORT).show()
@@ -150,13 +156,19 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun sesion() {
+    /*private fun sesion() {
         val email = sharedPreferences.getString("email", null)
         loginViewModel.sesion(email) { isEnableView ->
             if (isEnableView) {
                 binding.clContenedor.visibility = View.INVISIBLE
                 goToHome()
             }
+        }
+    }*/
+    private fun sesion() {
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        if (isLoggedIn) {
+            goToHome() // Ir directamente a la pantalla principal si la sesión está activa
         }
     }
     private fun validateFields() {
