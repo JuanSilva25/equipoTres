@@ -9,23 +9,27 @@ import com.example.equipotres.databinding.FragmentDialogBinding
 class DialogCustom {
     companion object {
         fun showDialogCustom(
-            context: Context
+            context: Context,
+            challengeDescription: String // Agregar el parámetro para la descripción
         ) {
             val inflater = LayoutInflater.from(context)
             val binding = FragmentDialogBinding.inflate(inflater)
 
             val alertDialog = AlertDialog.Builder(context).create()
             alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            alertDialog.setCancelable(false) //para cuando se cliquee por los lados no se pueda
-            alertDialog.setView(binding.root) //establecer la vista de un cuadro de dialogo
+            alertDialog.setCancelable(false) // Para que no se cierre al hacer clic fuera
+            alertDialog.setView(binding.root) // Establecer la vista personalizada del diálogo
 
+            // Configurar el texto del reto aleatorio
+            binding.tvChallenge.text = challengeDescription
 
+            // Acción del botón cerrar
             binding.btnCerrar.setOnClickListener {
-                Toast.makeText(context,"Cerrar", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Cerrar", Toast.LENGTH_SHORT).show()
                 alertDialog.dismiss()
             }
-            alertDialog.show()
 
+            alertDialog.show()
         }
     }
 }
