@@ -25,7 +25,13 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.example.equipotres.repository.RetosRepository
+import com.example.equipotres.view.dialog.DialogCustom
 import com.example.equipotres.view.dialog.DialogCustom.Companion.showDialogCustom
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -99,7 +105,7 @@ class HomeFragment : Fragment() {
         rotateAnimator.start()
         rotateAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                showDialogCustom(binding.root.context)
+                obtenerRetoAleatorio()
                 startInitialCounter()
             }
         })
@@ -218,6 +224,27 @@ class HomeFragment : Fragment() {
         animator.repeatMode = ValueAnimator.REVERSE
         animator.duration = 500
         animator.start()
+    }
+
+    private fun obtenerRetoAleatorio() {
+        val retosRepository = RetosRepository()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+
+        lifecycleScope.launch {
+            try {
+                val retoAleatorio = retosRepository.obtenerRetoAleatorio(userId)
+                if (retoAleatorio != null) {
+                    // Mostrar el diálogo con la descripción del reto aleatorio
+                    DialogCustom.showDialogCustom(requireContext(), retoAleatorio.description)
+                } else {
+                    // No hay retos disponibles
+                    Toast.makeText(requireContext(), "No se encontró ningún reto", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Error al obtener reto aleatorio: ${e.message}")
+                Toast.makeText(requireContext(), "Error al obtener el reto aleatorio", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onPause() {
