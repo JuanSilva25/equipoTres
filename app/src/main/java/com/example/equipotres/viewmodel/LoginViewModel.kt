@@ -8,9 +8,14 @@ import com.example.equipotres.model.UserResponse
 import com.example.equipotres.repository.LoginRepository
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-    private val repository = LoginRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository : LoginRepository
+) : ViewModel() {
+
     private val _isRegister = MutableLiveData<UserResponse>()
     val isRegister: LiveData<UserResponse> = _isRegister
     fun registerUser(userRequest: UserRequest) {

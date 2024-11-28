@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     // Add the Google services Gradle plugin
+    id ("kotlin-kapt")
+    id ("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
 }
 
@@ -87,6 +89,8 @@ dependencies {
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
-
+    //dagger hilt
+    implementation ("com.google.dagger:hilt-android:2.51.1")
+    kapt ("com.google.dagger:hilt-compiler:2.51.1")
 }
 
