@@ -26,10 +26,12 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.equipotres.repository.RetosRepository
 import com.example.equipotres.view.dialog.DialogCustom
 import com.example.equipotres.view.dialog.DialogCustom.Companion.showDialogCustom
+import com.example.equipotres.viewmodel.PokemonsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,7 @@ class HomeFragment : Fragment() {
     private lateinit var mediaPlayer: MediaPlayer
     private var isAudioPlaying = true
     private lateinit var sharedPreferences: SharedPreferences
+    private val pokemonViewModel: PokemonsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -235,7 +238,7 @@ class HomeFragment : Fragment() {
                 val retoAleatorio = retosRepository.obtenerRetoAleatorio(userId)
                 if (retoAleatorio != null) {
                     // Mostrar el diálogo con la descripción del reto aleatorio
-                    DialogCustom.showDialogCustom(requireContext(), retoAleatorio.description)
+                    DialogCustom.showDialogCustom(requireContext(), retoAleatorio.description, pokemonViewModel, viewLifecycleOwner)
                 } else {
                     // No hay retos disponibles
                     Toast.makeText(requireContext(), "No se encontró ningún reto", Toast.LENGTH_SHORT).show()
