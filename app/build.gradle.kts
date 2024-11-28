@@ -92,5 +92,32 @@ dependencies {
     //dagger hilt
     implementation ("com.google.dagger:hilt-android:2.51.1")
     kapt ("com.google.dagger:hilt-compiler:2.51.1")
+
+    // JUnit
+    testImplementation ("junit:junit:4.13.2")
+
+    // MockK para mocking
+    testImplementation ("io.mockk:mockk:1.13.5")
+    testImplementation ("io.mockk:mockk-android:1.13.5")
+
+    // Coroutines para testing
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // Librería de LiveData para pruebas unitarias
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+
+    // Hilt para testing
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:2.48")
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.48")
+    testImplementation ("com.google.dagger:hilt-android-testing:2.48")
+
+
+    testImplementation ("org.mockito:mockito-junit-jupiter:3.12.4")// Para JUnit 5
+    testImplementation ("org.mockito:mockito-core:4.5.1")
+    testImplementation ("org.mockito:mockito-inline:4.5.1")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:5.0.0") // integración con Kotlin
+    testImplementation ("androidx.arch.core:core-testing:2.2.0") // Para LiveData testing
+
+
 }
 
