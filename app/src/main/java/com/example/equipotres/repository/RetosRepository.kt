@@ -7,10 +7,12 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class RetosRepository {
+class RetosRepository @Inject constructor(
+    private val db: FirebaseFirestore  // Inyección de FirebaseFirestore
+) {
 
-    private val db = FirebaseFirestore.getInstance()
     private val retosCollection = db.collection("retos")
 
     // Agregar un reto

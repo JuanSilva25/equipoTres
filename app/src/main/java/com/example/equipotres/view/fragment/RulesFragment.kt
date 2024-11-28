@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.equipotres.databinding.FragmentRulesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class RulesFragment : Fragment() {
 
     private lateinit var binding: FragmentRulesBinding

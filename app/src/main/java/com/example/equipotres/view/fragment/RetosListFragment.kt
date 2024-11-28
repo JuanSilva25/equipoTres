@@ -18,12 +18,16 @@ import com.example.equipotres.databinding.FragmentRetoslistBinding
 import com.example.equipotres.model.Reto
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RetosListFragment : Fragment() {
 
     private lateinit var binding: FragmentRetoslistBinding
-    private lateinit var retosRepository: RetosRepository
+    @Inject
+    lateinit var retosRepository: RetosRepository
     private lateinit var retoAdapter: RetoAdapter
 
     override fun onCreateView(
@@ -36,7 +40,7 @@ class RetosListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        retosRepository = RetosRepository() // Instanciamos el nuevo repositorio de Firestore
+        //retosRepository = RetosRepository() // Instanciamos el nuevo repositorio de Firestore
         retoAdapter = RetoAdapter(mutableListOf(), ::editReto, ::deleteReto)
         setupRecyclerView()
         loadRetos()

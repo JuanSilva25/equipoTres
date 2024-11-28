@@ -17,7 +17,9 @@ import com.example.equipotres.model.UserRequest
 import com.example.equipotres.viewmodel.LoginViewModel
 import androidx.core.content.ContextCompat
 import com.google.android.play.integrity.internal.s
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()

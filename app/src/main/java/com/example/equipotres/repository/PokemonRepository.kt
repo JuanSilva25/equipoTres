@@ -7,9 +7,11 @@ import com.example.equipotres.webservice.ApiService
 import com.example.equipotres.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PokemonRepository(val context: Context) {
-    private var apiService: ApiService = ApiUtils.getApiService()
+class PokemonRepository @Inject constructor(
+    private val apiService: ApiService
+) {
 
     suspend fun getPokemons(): MutableList<ApiPoke> {
         return withContext(Dispatchers.IO) {

@@ -33,8 +33,11 @@ import com.example.equipotres.view.dialog.DialogCustom
 import com.example.equipotres.view.dialog.DialogCustom.Companion.showDialogCustom
 import com.example.equipotres.viewmodel.PokemonsViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
@@ -43,6 +46,8 @@ class HomeFragment : Fragment() {
     private var isAudioPlaying = true
     private lateinit var sharedPreferences: SharedPreferences
     private val pokemonViewModel: PokemonsViewModel by viewModels()
+    @Inject
+    lateinit var retosRepository: RetosRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -230,7 +235,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun obtenerRetoAleatorio() {
-        val retosRepository = RetosRepository()
+        //val retosRepository = RetosRepository()
         val userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
 
         lifecycleScope.launch {

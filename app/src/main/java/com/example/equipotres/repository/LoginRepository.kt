@@ -3,9 +3,11 @@ import com.example.equipotres.model.UserRequest
 import com.example.equipotres.model.UserResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import javax.inject.Inject
 
-class LoginRepository {
-    private val firebaseAuth = FirebaseAuth.getInstance()
+class LoginRepository @Inject constructor(
+    private val firebaseAuth : FirebaseAuth
+) {
     fun registerUser(userRequest: UserRequest, userResponse: (UserResponse) -> Unit) {
         try {
             firebaseAuth.createUserWithEmailAndPassword(userRequest.email, userRequest.password)
